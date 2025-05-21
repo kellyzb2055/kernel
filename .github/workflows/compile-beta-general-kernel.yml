@@ -32,6 +32,9 @@ on:
           - 5.4.y_5.10.y
           - 5.15.y_6.1.y
           - 6.6.y_6.12.y
+          - 5.4.y_5.10.y_5.15.y
+          - 6.1.y_6.6.y_6.12.y
+          - all
       kernel_auto:
         description: "Auto use the latest kernel"
         required: false
@@ -82,6 +85,7 @@ on:
           - gcc-12.3
           - gcc-13.2
           - gcc-13.3
+          - gcc-14.2
       compress_format:
         description: "Set the initrd compression format"
         required: false
@@ -115,7 +119,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
 
     steps:
@@ -188,6 +192,8 @@ jobs:
           kernel_patch: ${{ inputs.kernel_patch }}
           auto_patch: ${{ inputs.auto_patch }}
           compress_format: ${{ inputs.compress_format }}
+          delete_source: true
+          silent_log: false
 
       - name: Upload Kernel to Release
         uses: ncipollo/release-action@main
